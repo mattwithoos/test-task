@@ -28,7 +28,7 @@ class MailChimpMember extends MailChimpEntity
     private $emailAddress;
 
     /**
-     * @ORM\Column(name="email_type", type="string")
+     * @ORM\Column(name="email_type", type="string", nullable=true)
      *
      * @var string
      */
@@ -42,91 +42,91 @@ class MailChimpMember extends MailChimpEntity
     private $status;
 
     /**
-     * @ORM\Column(name="merge_fields", type="array")
+     * @ORM\Column(name="merge_fields", type="array", nullable=true)
      *
      * @var array
      */
     private $mergeFields;
 
     /**
-     * @ORM\Column(name="interests", type="array")
+     * @ORM\Column(name="interests", type="array", nullable=true)
      *
      * @var array
      */
     private $interests;
 
     /**
-     * @ORM\Column(name="language", type="string")
+     * @ORM\Column(name="language", type="string", nullable=true)
      *
      * @var string
      */
     private $language;
 
     /**
-     * @ORM\Column(name="vip", type="boolean")
+     * @ORM\Column(name="vip", type="boolean", nullable=true)
      *
      * @var boolean
      */
     private $vip;
 
     /**
-     * @ORM\Column(name="location", type="array")
+     * @ORM\Column(name="location", type="array", nullable=true)
      *
      * @var array
      */
     private $location;
 
     /**
-     * @ORM\Column(name="marketing_permissions", type="array")
+     * @ORM\Column(name="marketing_permissions", type="array", nullable=true)
      *
      * @var array
      */
     private $marketingPermissions;
 
     /**
-     * @ORM\Column(name="ip_signup", type="string")
+     * @ORM\Column(name="ip_signup", type="string", nullable=true)
      *
      * @var string
      */
     private $ipSignup;
 
     /**
-     * @ORM\Column(name="timestamp_signup", type="string")
+     * @ORM\Column(name="timestamp_signup", type="string", nullable=true)
      *
      * @var string
      */
     private $timestampSignup;
 
     /**
-     * @ORM\Column(name="ip_opt", type="string")
+     * @ORM\Column(name="ip_opt", type="string", nullable=true)
      *
      * @var string
      */
     private $ipOpt;
 
     /**
-     * @ORM\Column(name="timestamp_opt", type="string")
+     * @ORM\Column(name="timestamp_opt", type="string", nullable=true)
      *
      * @var string
      */
     private $timestampOpt;
 
     /**
-     * @ORM\Column(name="tags", type="array")
+     * @ORM\Column(name="tags", type="array", nullable=true)
      *
      * @var array
      */
     private $tags;
 
     /**
-     * @ORM\Column(name="list_id", type="string")
+     * @ORM\Column(name="list_id", type="string", nullable=true)
      *
      * @var string
      */
     private $listId;
 
     /**
-     * @ORM\Column(name="mailchimp_member_id", type="string")
+     * @ORM\Column(name="mailchimp_member_id", type="string", nullable=true)
      *
      * @var string
      */
@@ -143,16 +143,6 @@ class MailChimpMember extends MailChimpEntity
     }
 
     /**
-     * Get mailchimp id of the member.
-     *
-     * @return null|string
-     */
-    public function getMailChimpId(): ?string
-    {
-        return $this->mailChimpId;
-    }
-
-    /**
      * Get validation rules for mailchimp entity.
      *
      * @return array
@@ -161,40 +151,25 @@ class MailChimpMember extends MailChimpEntity
     {
         return [
             'email_address' => 'required|string',
-            'email_type' => 'required|string',
+            'email_type' => 'sometimes|string',
             'status' => 'required|string',
-            'merge_fields' => 'required|array',
-            'interests' => 'required|array',
-            'language' => 'required|string',
-            'vip' => 'required|boolean',
-            'location' => 'required|array',
-            'location.longitude' => 'required|numeric',
-            'location.latitude' => 'required|numeric',
-            'marketing_permissions' => 'required|array',
+            'merge_fields' => 'sometimes|array',
+            'interests' => 'sometimes|array',
+            'language' => 'sometimes|string',
+            'vip' => 'sometimes|boolean',
+            'location' => 'sometimes|array',
+            'location.longitude' => 'sometimes|numeric',
+            'location.latitude' => 'sometimes|numeric',
+            'marketing_permissions' => 'sometimes|array',
             'marketing_permissions.marketing_permission_id' => 'nullable|string',
             'marketing_permissions.enabled' => 'nullable|boolean',
-            'ip_signup' => 'required|string',
-            'timestamp_signup' => 'required|string',
-            'ip_opt' => 'required|string',
-            'timestamp_opt' => 'required|string',
-            'tags' => 'required|array',
-            'list_id' => 'required|string',
-            'member_id' => 'required|string'
+            'ip_signup' => 'sometimes|string',
+            'timestamp_signup' => 'sometimes|string',
+            'ip_opt' => 'sometimes|string',
+            'timestamp_opt' => 'sometimes|string',
+            'tags' => 'sometimes|array',
+            'list_id' => 'required'
         ];
-    }
-
-    /**
-     * Set mailchimp id of the member.
-     *
-     * @param string $mailChimpId
-     *
-     * @return \App\Database\Entities\MailChimp\MailChimpMember
-     */
-    public function setMailChimpId(string $mailChimpId): MailChimpMember
-    {
-        $this->mailChimpId = $mailChimpId;
-
-        return $this;
     }
 
     /**
@@ -410,11 +385,11 @@ class MailChimpMember extends MailChimpEntity
     /**
      * Set mailchimp member id.
      *
-     * @param array $mailchimpMemberId
+     * @param string $mailchimpMemberId
      *
      * @return MailChimpMember
      */
-    public function setMailchimpMemberId(array $mailchimpMemberId): MailChimpMember
+    public function setMailchimpMemberId(string $mailchimpMemberId): MailChimpMember
     {
         $this->mailchimpMemberId = $mailchimpMemberId;
 
