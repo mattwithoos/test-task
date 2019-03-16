@@ -126,6 +126,13 @@ class MailChimpMember extends MailChimpEntity
     private $listId;
 
     /**
+     * @ORM\Column(name="mailchimp_member_id", type="string")
+     *
+     * @var string
+     */
+    private $mailchimpMemberId;
+
+    /**
      * Get id.
      *
      * @return null|string
@@ -163,14 +170,16 @@ class MailChimpMember extends MailChimpEntity
             'location' => 'required|array',
             'location.longitude' => 'required|numeric',
             'location.latitude' => 'required|numeric',
-            'marketing_permissions' => 'nullable|array',
+            'marketing_permissions' => 'required|array',
             'marketing_permissions.marketing_permission_id' => 'nullable|string',
             'marketing_permissions.enabled' => 'nullable|boolean',
             'ip_signup' => 'required|string',
             'timestamp_signup' => 'required|string',
             'ip_opt' => 'required|string',
             'timestamp_opt' => 'required|string',
-            'tags' => 'nullable|array'
+            'tags' => 'required|array',
+            'list_id' => 'required|string',
+            'member_id' => 'required|string'
         ];
     }
 
@@ -394,6 +403,20 @@ class MailChimpMember extends MailChimpEntity
     public function setListId(array $listId): MailChimpMember
     {
         $this->listId = $listId;
+
+        return $this;
+    }
+
+    /**
+     * Set mailchimp member id.
+     *
+     * @param array $mailchimpMemberId
+     *
+     * @return MailChimpMember
+     */
+    public function setMailchimpMemberId(array $mailchimpMemberId): MailChimpMember
+    {
+        $this->mailchimpMemberId = $mailchimpMemberId;
 
         return $this;
     }
