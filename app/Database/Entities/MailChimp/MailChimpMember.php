@@ -396,11 +396,11 @@ class MailChimpMember extends MailChimpEntity
     /**
      * Set list id.
      *
-     * @param array $listId
+     * @param string $listId
      *
      * @return MailChimpMember
      */
-    public function setListId(array $listId): MailChimpMember
+    public function setListId(string $listId): MailChimpMember
     {
         $this->listId = $listId;
 
