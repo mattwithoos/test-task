@@ -119,6 +119,13 @@ class MailChimpMember extends MailChimpEntity
     private $tags;
 
     /**
+     * @ORM\Column(name="list_id", type="string")
+     *
+     * @var string
+     */
+    private $listId;
+
+    /**
      * Get id.
      *
      * @return null|string
@@ -377,6 +384,19 @@ class MailChimpMember extends MailChimpEntity
         return $this;
     }
 
+    /**
+     * Set list id.
+     *
+     * @param array $listId
+     *
+     * @return MailChimpMember
+     */
+    public function setListId(array $listId): MailChimpMember
+    {
+        $this->listId = $listId;
+
+        return $this;
+    }
 
     /**
      * Get array representation of entity.
