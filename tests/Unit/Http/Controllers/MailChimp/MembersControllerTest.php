@@ -18,7 +18,7 @@ class MembersControllerTest extends MemberTestCase
         /** @noinspection PhpParamsInspection Mock given on purpose */
         $controller = new MembersController($this->entityManager, $this->mockMailChimpForException('post'));
 
-        $this->assertMailChimpExceptionResponse($controller->create($this->getRequest(static::$memberData)));
+        $this->assertMailChimpExceptionResponse($controller->create($this->getRequest($this->sampleMemberData())));
     }
 
     /**
@@ -30,7 +30,7 @@ class MembersControllerTest extends MemberTestCase
     {
         /** @noinspection PhpParamsInspection Mock given on purpose */
         $controller = new MembersController($this->entityManager, $this->mockMailChimpForException('delete'));
-        $member = $this->createMember(static::$memberData);
+        $member = $this->createMember($this->sampleMemberData());
 
         // If there is no member id, skip
         if (null === $member->getId()) {
@@ -39,7 +39,7 @@ class MembersControllerTest extends MemberTestCase
             return;
         }
 
-        $this->assertMailChimpExceptionResponse($controller->remove($member->getId()));
+        $this->assertMailChimpExceptionResponse($controller->remove($member->getId(), $member->getListId()));
     }
 
     /**
@@ -50,8 +50,8 @@ class MembersControllerTest extends MemberTestCase
     public function testUpdateMemberMailChimpException(): void
     {
         /** @noinspection PhpParamsInspection Mock given on purpose */
-        $controller = new MemberController($this->entityManager, $this->mockMailChimpForException('patch'));
-        $member = $this->createMember(static::$memberData);
+        $controller = new MembersController($this->entityManager, $this->mockMailChimpForException('patch'));
+        $member = $this->createMember($this->sampleMemberData());
 
         // If there is no member id, skip
         if (null === $member->getId()) {

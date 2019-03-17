@@ -58,7 +58,7 @@ class MembersController extends Controller
             $this->saveEntity($member);
             // Save member into MailChimp
 
-            $response = $this->mailChimp->post('/lists/'.$request->list_id.'/members', $member->toMailChimpArray());
+            $response = $this->mailChimp->post(\sprintf('/lists/%s/members', $request->list_id), $member->toMailChimpArray());
 
             // Set MailChimp member id on the member and save member into db
             $this->saveEntity($member->setMailchimpMemberId($response->get('id')));
@@ -116,10 +116,10 @@ class MembersController extends Controller
         }
 
         try {
+            // Remove list from MailChimp
+            $this->mailChimp->delete(\sprintf('/lists/%s/members/%s', $listId, $member->getMailchimpMemberId()));
             // Remove member from database
             $this->removeEntity($member);
-            // Remove list from MailChimp
-            $this->mailChimp->delete('/lists/'.$listId.'/members/'.$member->getMailchimpMemberId());
         } catch (Exception $exception) {
             return $this->errorResponse(['message' => $exception->getMessage()]);
         }
@@ -165,7 +165,7 @@ class MembersController extends Controller
             // Update member into database
             $this->saveEntity($member);
             // Update member into MailChimp
-            $this->mailChimp->patch('lists/'.$request->list_id.'/members/'.$member->getMailchimpMemberId(), $member->toMailChimpArray());
+            $this->mailChimp->patch(\sprintf('lists/%s/members/%s', $request->list_id, $member->getMailchimpMemberId()), $member->toMailChimpArray());
         } catch (Exception $exception) {
             return $this->errorResponse(['message' => $exception->getMessage()]);
         }

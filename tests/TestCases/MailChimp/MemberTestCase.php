@@ -20,13 +20,16 @@ abstract class MemberTestCase extends WithDatabaseTestCase
     protected $createdMemberIds = [];
 
     /**
-     * @var array
+     * @return array
      */
-    protected static $memberData = [
-        'email_address' => 'mattwithoos+testcase@gmail.com',
-        'status' => 'subscribed',
-        'list_id' => '35ac7c10e3',
-    ];
+    protected function sampleMemberData()
+    {
+        return [
+            'email_address' => 'matsasdhewaaadawithoos+'.rand(1,99999).'@hotmail.com',
+            'status' => 'subscribed',
+            'list_id' => '35ac7c10e3',
+        ];
+    }
 
     /**
      * Call MailChimp to delete members created during test.
@@ -42,8 +45,8 @@ abstract class MemberTestCase extends WithDatabaseTestCase
 
             // We need to retrieve the member so we can also get their associated list id
             $member = $this->entityManager->getRepository(MailChimpMember::class)->find($memberId);
-            // Delete list on MailChimp after test
-            $mailChimp->delete('/lists/'.$member->getListId().'/members/'.$member->getMailchimpMemberId());
+            // Delete member on MailChimp after test
+            $mailChimp->delete(\sprintf('/lists/%s/members/%s', $member->getListId(), $member->getMailchimpMemberId()));
         }
 
         parent::tearDown();
@@ -61,7 +64,6 @@ abstract class MemberTestCase extends WithDatabaseTestCase
         $content = \json_decode($this->response->content(), true);
 
         $this->assertResponseStatus(404);
-        self::assertArrayHasKey('message', $content);
         self::assertEquals(\sprintf('MailChimpMember[%s] not found', $memberId), $content['message']);
     }
 
@@ -95,7 +97,7 @@ abstract class MemberTestCase extends WithDatabaseTestCase
         $this->entityManager->persist($member);
         $this->entityManager->flush();
 
-        return $list;
+        return $member;
     }
 
     /**
